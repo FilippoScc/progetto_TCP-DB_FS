@@ -192,32 +192,37 @@ def db_get(lista_conn,lock,j):
 
     if tab==2:
         nome_tab="dipendenti_filippo_sacchetti"
-        lista_conn[j][0].send("Cosa vuoi fare? (C: creare/L: leggere/M: modificare/E: eliminare)".encode())
-        scelta = lista_conn[j][0].recv(1024).decode()
+        scelta=""
+        while scelta!='U':
+            lista_conn[j][0].send("Cosa vuoi fare? (C: creare/L: leggere/M: modificare/E: eliminare/U: Esci)".encode())
+            scelta = lista_conn[j][0].recv(1024).decode()
         
-        if scelta=='L':
-            read_query(nome_tab,lista_conn,cur,j)
-        elif scelta=='C':
-            create_query(tab,nome_tab,lista_conn,cur,cn,j)
-        elif scelta=='E':
-            delete_query(tab,nome_tab,lista_conn,cur,cn,j)
-        elif scelta=='M':
-            update_query(tab,nome_tab,lista_conn,cur,cn,j)
+            if scelta=='L':
+                read_query(nome_tab,lista_conn,cur,j)
+            elif scelta=='C':
+                create_query(tab,nome_tab,lista_conn,cur,cn,j)
+            elif scelta=='E':
+                delete_query(tab,nome_tab,lista_conn,cur,cn,j)
+            elif scelta=='M':
+                update_query(tab,nome_tab,lista_conn,cur,cn,j)
+        lista_conn[j][0].send("esecuzione terminata".encode())
 
 
     elif tab==1:
         nome_tab="zone_di_lavoro"
-        lista_conn[j][0].send("Cosa vuoi fare? (C: creare/L: leggere/M: modificare/E: eliminare)".encode())
-        scelta = lista_conn[j][0].recv(1024).decode()
-        
-        if scelta=='L':
-            read_query(nome_tab,lista_conn,cur,j)
-        elif scelta=='C':
-            create_query(tab,nome_tab,lista_conn,cur,cn,j)
-        elif scelta=='E':
-            delete_query(tab,nome_tab,lista_conn,cur,cn,j)
-        elif scelta=='M':
-            update_query(tab,nome_tab,lista_conn,cur,cn,j)
+        scelta=""
+        while scelta!='U':
+            lista_conn[j][0].send("Cosa vuoi fare? (C: creare/L: leggere/M: modificare/E: eliminare/U: Esci)".encode())
+            scelta = lista_conn[j][0].recv(1024).decode()
+            if scelta=='L':
+                read_query(nome_tab,lista_conn,cur,j)
+            elif scelta=='C':
+                create_query(tab,nome_tab,lista_conn,cur,cn,j)
+            elif scelta=='E':
+                delete_query(tab,nome_tab,lista_conn,cur,cn,j)
+            elif scelta=='M':
+                update_query(tab,nome_tab,lista_conn,cur,cn,j)
+        lista_conn[j][0].send("esecuzione terminata".encode())
 
            
 #==============================MAIN========================================
